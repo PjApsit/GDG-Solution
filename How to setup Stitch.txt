@@ -1,0 +1,34 @@
+# Stitch Setup Guide for AI Agents
+
+Our project utilizes Google's Stitch and the `stitch-skills` framework to ensure that our UI components strictly follow the "Civil Intelligence System" design standards. 
+
+If you want your AI coding assistant to generate code using the same design tokens, UI layout, and AST-validated structures, follow these steps:
+
+## 1. Get the Stitch Skills Repository
+Since Git automatically treats nested `.git` repositories as submodules, your local `stitch-skills` folder might be empty when you clone this project. 
+
+Run the following command in the root directory (`GDG Solution/`) to fetch the skills:
+
+```bash
+# Remove the empty submodule reference if it exists
+rm -rf stitch-skills
+
+# Clone the official stitch-skills repository
+git clone https://github.com/google/stitch-skills.git
+```
+
+## 2. Using the Stitch MCP Server
+For the AI to be able to fetch our exact prototypes, your AI environment must have the **Stitch MCP Server** enabled. This allows the AI to autonomously query our design systems.
+
+- **Our Stitch Project ID**: `2415833032549594604`
+
+When asking your AI to create a new page or component, you can use the following prompt structure:
+
+> "I want to build a new [Page Name]. First, use the stitch MCP server to list screens in project 2415833032549594604. Fetch the HTML for the relevant screen. Then, use the guidelines in the local `stitch-skills/` directory to generate the React component."
+
+## 3. Design Tokens
+Even if you do not use the AI generation, our design system is hardcoded into:
+- `client/tailwind.config.js`
+- `client/src/index.css`
+
+As long as you use standard Tailwind CSS classes (e.g., `bg-primary`, `text-on-surface`, `font-display-lg`), your components will perfectly match the Stitch designs without needing the MCP server.
