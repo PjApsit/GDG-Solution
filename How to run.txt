@@ -1,0 +1,54 @@
+# NGO Decision Intelligence System - Setup Guide
+
+Welcome to the project! Follow these steps to get the project running locally.
+
+## Prerequisites
+- Node.js version 20 installed on your system.
+- Git installed on your system.
+
+## Setup Steps
+
+1. **Clone the Repository**
+   Open your terminal and clone the repository to your local machine:
+   git clone <your-repository-url>
+   cd "GDG Solution"
+
+2. **Install Client Dependencies**
+   Navigate to the client folder and install required packages:
+   cd client
+   npm install
+   cd ..
+
+3. **Install Server Dependencies**
+   Navigate to the server folder and install required packages:
+   cd server
+   npm install
+   cd ..
+
+4. **Environment Variables**
+   The server requires a `.env` file to run. Since it is ignored by Git, you need to create it manually or copy it from a template.
+   In the `server` folder, create a file named `.env` and add:
+   PORT=3001
+   SUPABASE_URL=https://dummy.supabase.co
+   SUPABASE_ANON_KEY=dummy-key
+
+## Running the Application
+
+You will need to run both the frontend and backend simultaneously. Open TWO separate terminal windows.
+
+**Terminal 1 (Backend API)**
+1. Navigate to the server folder:
+   cd server
+2. Start the development server:
+   npm run dev
+(The server should now be running on http://localhost:3001)
+
+**Terminal 2 (Frontend React App)**
+1. Navigate to the client folder:
+   cd client
+2. Start the development server:
+   npm run dev
+(The frontend should now be running on http://localhost:5173)
+
+**Finally:**
+Open http://localhost:5173 in your browser to view the application!

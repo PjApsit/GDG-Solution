@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NGO Intel | Radical Transparency for Humanitarian Impact</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#d8e5e2",
+                    "surface-container-high": "#e1e8fd",
+                    "outline": "#6d7a77",
+                    "background": "#f9f9ff",
+                    "error": "#ba1a1a",
+                    "outline-variant": "#bcc9c6",
+                    "surface-tint": "#006a61",
+                    "inverse-surface": "#293040",
+                    "on-error": "#ffffff",
+                    "on-tertiary-container": "#fffbff",
+                    "tertiary-fixed": "#e2dfff",
+                    "on-secondary-fixed": "#121e1c",
+                    "primary-fixed-dim": "#6bd8cb",
+                    "tertiary-fixed-dim": "#c3c0ff",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f9f9ff",
+                    "primary-container": "#008378",
+                    "on-error-container": "#93000a",
+                    "primary": "#00685f",
+                    "on-surface-variant": "#3d4947",
+                    "on-secondary-container": "#5b6765",
+                    "surface-container-highest": "#dce2f7",
+                    "on-background": "#141b2b",
+                    "secondary-fixed": "#d8e5e2",
+                    "error-container": "#ffdad6",
+                    "surface-variant": "#dce2f7",
+                    "on-surface": "#141b2b",
+                    "on-tertiary-fixed-variant": "#3323cc",
+                    "surface-container": "#e9edff",
+                    "secondary-fixed-dim": "#bcc9c6",
+                    "on-secondary-fixed-variant": "#3d4947",
+                    "inverse-on-surface": "#edf0ff",
+                    "surface-container-low": "#f1f3ff",
+                    "surface": "#f9f9ff",
+                    "primary-fixed": "#89f5e7",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed": "#0f0069",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-container": "#645efb",
+                    "surface-dim": "#d3daef",
+                    "on-primary-fixed": "#00201d",
+                    "tertiary": "#4b41e1",
+                    "secondary": "#55615f",
+                    "inverse-primary": "#6bd8cb",
+                    "on-primary-fixed-variant": "#005049",
+                    "on-primary-container": "#f4fffc"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "lg": "2rem",
+                    "xl": "4rem",
+                    "sm": "1rem",
+                    "gutter": "1.5rem",
+                    "margin": "2rem",
+                    "xs": "0.5rem",
+                    "unit": "4px",
+                    "md": "1.5rem"
+            },
+            "fontFamily": {
+                    "headline-sm": ["Epilogue"],
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Epilogue"],
+                    "display-md": ["Epilogue"]
+            },
+            "fontSize": {
+                    "headline-sm": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-sm": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-md": ["36px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-md fixed top-0 w-full z-50 border-b border-teal-50 dark:border-teal-900/20 shadow-sm shadow-teal-900/5 h-20">
+<nav class="flex justify-between items-center max-w-7xl mx-auto px-6 h-full">
+<div class="flex items-center gap-8">
+<span class="font-epilogue text-xl font-bold text-teal-600 dark:text-teal-400 tracking-tight">NGO Intel</span>
+<div class="hidden md:flex gap-6">
+<a class="font-epilogue text-slate-600 dark:text-slate-400 font-medium hover:text-teal-500 dark:hover:text-teal-300 transition-colors duration-200" href="#">Dashboard</a>
+<a class="font-epilogue text-teal-600 dark:text-teal-400 border-b-2 border-teal-600 pb-1 hover:text-teal-500 dark:hover:text-teal-300 transition-colors duration-200" href="#">About us</a>
+<a class="font-epilogue text-slate-600 dark:text-slate-400 font-medium hover:text-teal-500 dark:hover:text-teal-300 transition-colors duration-200" href="#">Contact us</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="font-epilogue text-teal-600 dark:text-teal-400 font-medium px-4 py-2 active:scale-95 transition-transform">Sign in</button>
+<button class="font-epilogue bg-primary text-white font-semibold px-6 py-2.5 rounded-lg active:scale-95 transition-transform hover:opacity-90 shadow-lg shadow-primary/20">Sign up</button>
+</div>
+</nav>
+</header>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative overflow-hidden bg-surface-container-low py-xl px-margin">
+<div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-xl items-center">
+<div class="z-10">
+<div class="inline-flex items-center gap-2 bg-primary-fixed px-3 py-1 rounded-full mb-md">
+<span class="material-symbols-outlined text-primary scale-75">volunteer_activism</span>
+<span class="font-label-sm text-on-primary-fixed text-xs uppercase tracking-wider">Humanity First</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-on-background mb-md">
+                        From scattered data to <span class="text-primary">life-saving action</span>.
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-lg leading-relaxed max-w-xl">
+                        We bridge the gap between intent and impact. NGO Intel provides the radical transparency needed to turn community willpower into coordinated humanitarian success.
+                    </p>
+<div class="flex flex-wrap gap-md">
+<button class="bg-primary text-on-primary px-8 py-4 rounded-lg font-headline-sm flex items-center gap-xs hover:shadow-xl transition-all">
+                            Explore Active Missions
+                            <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<button class="bg-white border-2 border-primary text-primary px-8 py-4 rounded-lg font-headline-sm hover:bg-secondary-container transition-colors">
+                            Our Impact
+                        </button>
+</div>
+</div>
+<div class="relative group">
+<div class="absolute -inset-4 bg-primary-container/10 rounded-[2rem] rotate-3 group-hover:rotate-1 transition-transform"></div>
+<div class="relative aspect-square rounded-xl overflow-hidden shadow-2xl">
+<img alt="Humanitarian worker interacting with a community group in a sun-drenched outdoor setting" class="w-full h-full object-cover" data-alt="a diverse group of community volunteers and aid workers gathered in a sunlit village square smiling and coordinating together" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq1VFv-v9d3kdLVv4GUcTAPwYKznmVJ7HoTYH4213nXTuy-uVNrFO9-NY3kieOEJSD3mvEQxkH8aoLwUce4oPBfXcg6DkmwBxbbupwahiN6As-FMWsfEmJVhEXOvxWd7YFEGx9Z2j3iKAfSetSiNEmpqkWo3QL8yD_WBUFqaLwZckhfsNLeNkQkYi7dWRt2xQPQy8Y3bFNFUMsw5IU4vwxNu-89HKwfHyMLKOE26sfWQS9T54nhZLHJxQY_PuZZJf-ZBMovlVTMBU"/>
+</div>
+<!-- Floating Metric Card -->
+<div class="absolute bottom-8 -left-8 bg-white p-6 rounded-xl shadow-xl flex items-center gap-4 max-w-[240px]">
+<div class="bg-tertiary-fixed p-3 rounded-full">
+<span class="material-symbols-outlined text-tertiary">groups</span>
+</div>
+<div>
+<p class="font-display-md text-primary text-2xl">42k+</p>
+<p class="font-label-sm text-on-surface-variant text-xs">Volunteers Connected</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- About Us Section: Storytelling Layout -->
+<section class="py-xl px-margin bg-white">
+<div class="max-w-7xl mx-auto">
+<div class="text-center mb-xl">
+<h2 class="font-display-md text-display-md text-on-background mb-sm">Unity in Fragmentation</h2>
+<div class="w-24 h-1 bg-primary-fixed mx-auto rounded-full"></div>
+</div>
+<div class="grid md:grid-cols-3 gap-gutter">
+<!-- Column 1: The Problem -->
+<div class="p-lg rounded-xl bg-surface-container-low border border-outline-variant/30 flex flex-col gap-md">
+<span class="material-symbols-outlined text-error text-4xl">crisis_alert</span>
+<h3 class="font-headline-sm text-headline-sm">The Data Gap</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">NGOs often operate in silos, leading to duplicated efforts and overlooked needs. We saw volunteers ready to help but paralyzed by a lack of clear direction.</p>
+</div>
+<!-- Column 2: Our Mission -->
+<div class="p-lg rounded-xl bg-primary-container text-on-primary-container shadow-lg shadow-primary/20 flex flex-col gap-md scale-105">
+<span class="material-symbols-outlined text-4xl">hub</span>
+<h3 class="font-headline-sm text-headline-sm">Universal Intelligence</h3>
+<p class="font-body-md text-body-md">Our mission is to create a unified data nervous system for humanitarian aid. By aggregating local insights and global resources, we ensure help lands exactly where it’s needed most.</p>
+</div>
+<!-- Column 3: The Result -->
+<div class="p-lg rounded-xl bg-surface-container-low border border-outline-variant/30 flex flex-col gap-md">
+<span class="material-symbols-outlined text-tertiary text-4xl">auto_awesome</span>
+<h3 class="font-headline-sm text-headline-sm">Radical Transparency</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Donors see the real-time impact. NGOs see the larger landscape. Volunteers see their contribution within a global tapestry of change.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Volunteer & NGO Management: Bento Grid Style -->
+<section class="py-xl px-margin bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-xl gap-md">
+<div class="max-w-2xl">
+<h2 class="font-display-md text-display-md text-on-background">Empowering every hand</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-sm">Whether you’re managing a global network or signing up for your first task, our platform simplifies the complex.</p>
+</div>
+<button class="flex items-center gap-2 text-primary font-semibold hover:underline">
+                        View Management Tools
+                        <span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter h-auto md:h-[600px]">
+<!-- NGO Management Card -->
+<div class="md:col-span-8 bg-white border border-outline-variant/20 rounded-xl overflow-hidden shadow-sm flex flex-col">
+<div class="p-lg flex-1">
+<div class="flex items-center gap-4 mb-md">
+<div class="bg-secondary-container p-2 rounded-lg">
+<span class="material-symbols-outlined text-primary">analytics</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm">NGO Command Center</h3>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md mb-lg">Manage multi-region volunteer deployments with real-time heatmaps and resource tracking.</p>
+<div class="grid grid-cols-2 gap-md">
+<div class="bg-surface p-4 rounded-lg border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary block mb-2">dashboard_customize</span>
+<p class="font-label-sm text-xs">Custom Workflows</p>
+</div>
+<div class="bg-surface p-4 rounded-lg border border-outline-variant/10">
+<span class="material-symbols-outlined text-primary block mb-2">sync_alt</span>
+<p class="font-label-sm text-xs">Cross-NGO Data Sync</p>
+</div>
+</div>
+</div>
+<div class="h-64 relative">
+<img alt="Modern dashboard interface with maps and charts" class="w-full h-full object-cover" data-alt="a sleek data dashboard interface showing geographical maps with heat zones and humanitarian progress metrics" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbQ-bfMBTug4ao5FpJz4GmE1pAo5osdTFmgQmr7_fecGKOfjnVmdTnEAOKPS3Egwnn2r82bOVAj6ljOIrc8OKcWQL36xqfZDVcrkCSHIxlRuEWZiyS9qOadK6YqIET5Ay3Fc-7MFzcN8NkZTug4eKht6vp7olqHIQn6gleu2u9wQ5Uw3FVORbEODB6jmmlT6fzZ4zBjYj177YQ1h5eOW-65guu8KfFWx3bn3LNNhZSkkTXHQ_Pcip7GvVrOGty6c154LJXv8qE6gY"/>
+</div>
+</div>
+<!-- Volunteer View Card -->
+<div class="md:col-span-4 bg-tertiary-container text-on-tertiary-container rounded-xl p-lg flex flex-col justify-between">
+<div>
+<span class="material-symbols-outlined text-5xl mb-md">person_pin_circle</span>
+<h3 class="font-headline-sm text-headline-sm mb-sm">The Big Picture</h3>
+<p class="font-body-md text-on-tertiary-container/80">Volunteers get a personalized task dashboard that shows how their hours contribute to massive, shared goals.</p>
+</div>
+<ul class="space-y-4 mt-lg">
+<li class="flex items-center gap-3 bg-white/10 p-3 rounded-lg backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">check_circle</span>
+<span class="text-sm font-medium">Daily Task Matching</span>
+</li>
+<li class="flex items-center gap-3 bg-white/10 p-3 rounded-lg backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">history_edu</span>
+<span class="text-sm font-medium">Certified Impact Logs</span>
+</li>
+<li class="flex items-center gap-3 bg-white/10 p-3 rounded-lg backdrop-blur-sm">
+<span class="material-symbols-outlined text-sm">share</span>
+<span class="text-sm font-medium">Community Sharing</span>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-xl px-margin">
+<div class="max-w-4xl mx-auto bg-primary rounded-[2rem] p-lg md:p-xl text-center text-on-primary shadow-2xl relative overflow-hidden">
+<!-- Background texture-like pattern -->
+<div class="absolute inset-0 opacity-10 pointer-events-none">
+<div class="grid grid-cols-6 h-full w-full">
+<div class="border-r border-white/20"></div>
+<div class="border-r border-white/20"></div>
+<div class="border-r border-white/20"></div>
+<div class="border-r border-white/20"></div>
+<div class="border-r border-white/20"></div>
+</div>
+</div>
+<h2 class="font-display-md text-display-md mb-md relative z-10">Ready to make a measurable difference?</h2>
+<p class="font-body-lg mb-lg max-w-2xl mx-auto text-on-primary-container relative z-10">Join thousands of NGOs and volunteers who are already using data to save lives. It starts with one step.</p>
+<div class="flex flex-col sm:flex-row gap-md justify-center relative z-10">
+<button class="bg-white text-primary px-xl py-4 rounded-lg font-headline-sm hover:bg-secondary-container transition-all">Start as NGO</button>
+<button class="bg-primary-container text-white border border-white/20 px-xl py-4 rounded-lg font-headline-sm hover:bg-white/10 transition-all">Join as Volunteer</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-7xl mx-auto px-8 py-16">
+<div class="flex flex-col md:flex-row justify-between items-start gap-12 mb-12">
+<div class="max-w-xs">
+<span class="font-epilogue text-lg font-bold text-teal-600 dark:text-teal-400">NGO Intel</span>
+<p class="font-epilogue text-sm text-slate-500 dark:text-slate-400 mt-4 leading-relaxed">
+                        Empowering the humanitarian sector through data accessibility and radical collaborative transparency.
+                    </p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-12">
+<div class="flex flex-col gap-4">
+<h4 class="font-epilogue font-bold text-slate-800 dark:text-slate-200 text-sm">Resources</h4>
+<a class="font-epilogue text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 transition-all" href="#">Impact Reports</a>
+<a class="font-epilogue text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 transition-all" href="#">Case Studies</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-epilogue font-bold text-slate-800 dark:text-slate-200 text-sm">Community</h4>
+<a class="font-epilogue text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 transition-all" href="#">Volunteer</a>
+<a class="font-epilogue text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 transition-all" href="#">Partners</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="font-epilogue font-bold text-slate-800 dark:text-slate-200 text-sm">Legal</h4>
+<a class="font-epilogue text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 transition-all" href="#">Privacy Policy</a>
+<a class="font-epilogue text-sm text-slate-500 dark:text-slate-400 hover:text-teal-600 transition-all" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+<div class="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-epilogue text-sm text-slate-500 dark:text-slate-400 text-center md:text-left">
+                    © 2024 NGO Intel. Dedicated to humanitarian impact and radical transparency.
+                </p>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-slate-400 hover:text-teal-600 cursor-pointer transition-colors">public</span>
+<span class="material-symbols-outlined text-slate-400 hover:text-teal-600 cursor-pointer transition-colors">mail</span>
+<span class="material-symbols-outlined text-slate-400 hover:text-teal-600 cursor-pointer transition-colors">forum</span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

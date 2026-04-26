@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base resets ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  background-color: #faf8ff;
+  color: #191b23;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar (Government-grade minimal) ── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #ededf9;
+}
+::-webkit-scrollbar-thumb {
+  background: #c3c6d7;
+  border-radius: 3px;
+}
+
+/* ── Utility layers ── */
+@layer components {
+  .card {
+    @apply bg-surface-container-lowest border border-outline-variant rounded p-4;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2 py-0.5 text-label-caps uppercase rounded;
+  }
+
+  .badge-critical {
+    @apply badge bg-error/10 text-error;
+  }
+
+  .badge-warning {
+    @apply badge bg-tertiary/10 text-tertiary;
+  }
+
+  .badge-success {
+    @apply badge bg-primary/10 text-primary;
+  }
+
+  .badge-neutral {
+    @apply badge bg-secondary-container text-secondary;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary-container text-on-primary font-semibold text-body-base rounded transition-colors hover:bg-primary focus:outline-none focus:ring-2 focus:ring-primary/20;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 border border-outline-variant text-on-surface font-medium text-body-base rounded transition-colors hover:bg-surface-container focus:outline-none focus:ring-2 focus:ring-primary/20;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-3 py-1.5 text-on-surface-variant font-medium text-body-sm rounded transition-colors hover:bg-surface-container;
+  }
+
+  .input-field {
+    @apply w-full px-3 py-2 border border-outline-variant rounded text-body-base bg-surface-container-lowest text-on-surface placeholder:text-outline transition-colors focus:border-primary-container focus:ring-2 focus:ring-primary/20 focus:outline-none;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-2.5 text-body-base text-on-surface-variant rounded transition-colors hover:bg-surface-container;
+  }
+
+  .sidebar-link-active {
+    @apply sidebar-link bg-primary/5 text-primary border-l-2 border-primary-container font-medium;
+  }
+
+  .table-header {
+    @apply bg-surface-container-high text-label-caps uppercase text-on-surface-variant px-4 py-2 text-left;
+  }
+
+  .table-cell {
+    @apply px-4 py-2 text-body-base border-b border-outline-variant;
+  }
+
+  .stat-card {
+    @apply card flex flex-col gap-1;
+  }
+}
