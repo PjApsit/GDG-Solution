@@ -9,10 +9,10 @@
     "dev": "nodemon app.js"
   },
   "dependencies": {
-    "express": "4.19.2",
+    "@supabase/supabase-js": "^2.104.1",
     "cors": "2.8.5",
     "dotenv": "16.4.5",
-    "@supabase/supabase-js": "2.43.4"
+    "express": "^4.22.1"
   },
   "devDependencies": {
     "nodemon": "3.1.0"
