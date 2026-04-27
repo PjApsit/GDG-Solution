@@ -19,7 +19,7 @@ const Landing = () => {
           </div>
           <div className="flex items-center gap-4">
             <button onClick={() => navigate('/ngo/dashboard')} className="font-epilogue text-teal-600 dark:text-teal-400 font-medium px-4 py-2 active:scale-95 transition-transform">NGO Sign in</button>
-            <button onClick={() => navigate('/volunteer/dashboard')} className="font-epilogue bg-primary text-white font-semibold px-6 py-2.5 rounded-lg active:scale-95 transition-transform hover:opacity-90 shadow-lg shadow-primary/20">Volunteer Sign in</button>
+            <button onClick={() => navigate('/signup')} className="font-epilogue bg-primary text-white font-semibold px-6 py-2.5 rounded-lg active:scale-95 transition-transform hover:opacity-90 shadow-lg shadow-primary/20">Get Started</button>
           </div>
         </nav>
       </header>

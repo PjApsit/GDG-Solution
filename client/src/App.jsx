@@ -6,9 +6,14 @@ import VolunteerLayout from './layouts/VolunteerLayout';
 // NGO Pages
 import NGODashboard from './pages/ngo/Dashboard';
 import NGOSocial from './pages/ngo/Social';
+import NGOProjects from './pages/ngo/Projects';
+import NGOData from './pages/ngo/Data';
+import NGOUpdates from './pages/ngo/Updates';
+import NGOInsights from './pages/ngo/Insights';
 
 // Volunteer Pages
 import VolunteerDashboard from './pages/volunteer/Dashboard';
+import VolunteerWork from './pages/volunteer/Work';
 
 // Placeholder for unbuilt pages
 const Placeholder = ({ title }) => (
@@ -18,27 +23,29 @@ const Placeholder = ({ title }) => (
 );
 
 import Landing from './pages/Landing';
+import SignUp from './pages/SignUp';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/signup" element={<SignUp />} />
         
         {/* NGO Routes */}
         <Route path="/ngo" element={<NGOLayout />}>
           <Route path="dashboard" element={<NGODashboard />} />
-          <Route path="projects" element={<Placeholder title="Projects" />} />
-          <Route path="data" element={<Placeholder title="Data Management" />} />
-          <Route path="updates" element={<Placeholder title="Updates" />} />
-          <Route path="insights" element={<Placeholder title="Deep Insights" />} />
+          <Route path="projects" element={<NGOProjects />} />
+          <Route path="data" element={<NGOData />} />
+          <Route path="updates" element={<NGOUpdates />} />
+          <Route path="insights" element={<NGOInsights />} />
           <Route path="social" element={<NGOSocial />} />
         </Route>
 
         {/* Volunteer Routes */}
         <Route path="/volunteer" element={<VolunteerLayout />}>
           <Route path="dashboard" element={<VolunteerDashboard />} />
-          <Route path="work" element={<Placeholder title="My Work" />} />
+          <Route path="work" element={<VolunteerWork />} />
           <Route path="social" element={<NGOSocial />} /> {/* Reuse social for now */}
         </Route>
       </Routes>
