@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import StatCard from '../../components/StatCard';
 import PriorityList from '../../components/PriorityList';
 import HeatMap from '../../components/HeatMap';
 import DecisionInsights from '../../components/DecisionInsights';
 import { mockEvents, dashboardStats } from '../../data/mockData';
 import { AlertTriangle, Users, CheckCircle, Database } from 'lucide-react';
+import { fetchHeatmapDataFromGroq } from '../../services/HeatData';
 
 const NGODashboard = () => {
+  console.log("--- NGODashboard Component Rendered ---");
+
+  const [mapEvents, setMapEvents] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const loadAiData = async () => {
+    console.log("--- loadAiData function called ---");
+    setIsLoading(true);
+    const data = await fetchHeatmapDataFromGroq();
+    setMapEvents(data);
+    setIsLoading(false);
+  };
+  useEffect(() => {
+    console.log("--- useEffect mounted ---");
+    loadAiData();
+  }, []);
   return (
     <div className="space-y-6">
       <header className="mb-8">
@@ -47,13 +63,13 @@ const NGODashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main content - Heatmap and Priority List */}
         <div className="lg:col-span-2 space-y-6">
-          <HeatMap events={mockEvents} />
-          <PriorityList events={mockEvents} />
+          <HeatMap events={mapEvents} />
+          <PriorityList events={mapEvents} />
         </div>
 
         {/* Sidebar - Decision Insights */}
         <div className="space-y-6">
-          <DecisionInsights events={mockEvents} />
+          <DecisionInsights events={mapEvents} />
         </div>
       </div>
     </div>
