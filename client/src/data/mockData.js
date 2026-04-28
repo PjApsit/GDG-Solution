@@ -216,6 +216,7 @@ export const dashboardStats = {
 // ── Sidebar Navigation ──
 export const ngoSidebarLinks = [
   { label: 'Dashboard', path: '/ngo/dashboard', icon: 'LayoutDashboard' },
+  { label: 'Scan Survey', path: '/ngo/scan', icon: 'ScanLine' },
   { label: 'Projects', path: '/ngo/projects', icon: 'FolderKanban' },
   { label: 'Data', path: '/ngo/data', icon: 'Database' },
   { label: 'Updates', path: '/ngo/updates', icon: 'Bell' },
@@ -226,6 +227,7 @@ export const ngoSidebarLinks = [
 export const volunteerSidebarLinks = [
   { label: 'Dashboard', path: '/volunteer/dashboard', icon: 'LayoutDashboard' },
   { label: 'My Work', path: '/volunteer/work', icon: 'ClipboardList' },
+  { label: 'Certificate', path: '/volunteer/certificate', icon: 'Award' },
   { label: 'Social', path: '/volunteer/social', icon: 'MessageSquare' },
 ];
 

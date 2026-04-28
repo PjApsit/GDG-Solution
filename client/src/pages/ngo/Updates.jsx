@@ -1,119 +1,46 @@
+/**
+ * Updates — Real-time activity feed / notification log
+ */
 import React from 'react';
-import { 
-  Bell, 
-  Search, 
-  Filter, 
-  MessageSquare, 
-  AlertCircle, 
-  CheckCircle2, 
-  Info,
-  Clock
-} from 'lucide-react';
+import { Bell, MapPin, User, CheckCircle, AlertTriangle, Clock, ScanLine, UserPlus } from 'lucide-react';
+
+const mockUpdates = [
+  { id: 1, type: 'event', icon: AlertTriangle, color: 'text-error bg-error/10', message: 'New event reported in Dharavi, Mumbai', detail: 'Dengue outbreak — Severity 9/10', time: '2 hours ago' },
+  { id: 2, type: 'volunteer', icon: UserPlus, color: 'text-primary bg-primary/10', message: 'Volunteer Arun Sharma accepted Task: Flood Relief', detail: 'Sundarbans, West Bengal', time: '3 hours ago' },
+  { id: 3, type: 'completed', icon: CheckCircle, color: 'text-green-600 bg-green-50', message: 'Task completed: Water Tanker Deployment', detail: 'By Priya Desai — Thar Desert', time: '5 hours ago' },
+  { id: 4, type: 'scan', icon: ScanLine, color: 'text-violet-600 bg-violet-50', message: 'AI scan completed — survey from Patna', detail: 'Cholera cases detected, priority score: 52', time: '6 hours ago' },
+  { id: 5, type: 'event', icon: AlertTriangle, color: 'text-amber-600 bg-amber-50', message: 'Event updated: Landslide Risk in Wayanad', detail: 'Severity increased to 8/10', time: '8 hours ago' },
+  { id: 6, type: 'volunteer', icon: User, color: 'text-primary bg-primary/10', message: 'New volunteer registered: Sneha Patel', detail: 'Skills: Teaching, First Aid, Community Outreach', time: '12 hours ago' },
+  { id: 7, type: 'completed', icon: CheckCircle, color: 'text-green-600 bg-green-50', message: 'Task completed: Door-to-door Survey', detail: 'By Kabir Ahmed — Dharavi', time: '1 day ago' },
+  { id: 8, type: 'event', icon: MapPin, color: 'text-error bg-error/10', message: 'Critical event: Flood warning for Sundarbans', detail: 'Heavy rainfall predicted — 3400 affected', time: '1 day ago' },
+];
 
 const Updates = () => {
-  const notifications = [
-    {
-      id: 1,
-      type: 'critical',
-      title: 'New Severe Outbreak Detected',
-      message: 'Intelligence scoring engine flagged a high-risk Dengue cluster in Dharavi Sector 4.',
-      time: '12m ago',
-      read: false,
-    },
-    {
-      id: 2,
-      type: 'success',
-      title: 'Resource Deployment Complete',
-      message: 'HealthFirst India successfully deployed 500 testing kits to the Mumbai regional hub.',
-      time: '2h ago',
-      read: false,
-    },
-    {
-      id: 3,
-      type: 'info',
-      title: 'System Update',
-      message: 'The Civil Intelligence Platform has been updated to v2.4.1. New GIS layers are available.',
-      time: '5h ago',
-      read: true,
-    },
-    {
-      id: 4,
-      type: 'warning',
-      title: 'Data Ingestion Delay',
-      message: 'Weather Satellite Feed is experiencing latency issues. Data may be up to 4 hours old.',
-      time: '1d ago',
-      read: true,
-    }
-  ];
-
-  const getTypeStyles = (type) => {
-    switch (type) {
-      case 'critical': return { icon: AlertCircle, color: 'text-error', bg: 'bg-error-container/30' };
-      case 'success': return { icon: CheckCircle2, color: 'text-success', bg: 'bg-success/10' };
-      case 'warning': return { icon: AlertCircle, color: 'text-tertiary', bg: 'bg-tertiary-container/30' };
-      default: return { icon: Info, color: 'text-primary', bg: 'bg-primary-container/30' };
-    }
-  };
-
   return (
-    <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6">
+      <header className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-h1 text-on-surface">Intelligence Updates</h1>
-          <p className="text-body-base text-on-surface-variant">Stay informed about critical events and system activity.</p>
+          <h1 className="text-h1 text-on-surface mb-2">Activity Updates</h1>
+          <p className="text-body-base text-on-surface-variant">Real-time notifications and activity feed.</p>
         </div>
-        <button className="text-label-caps text-primary font-bold hover:underline">MARK ALL AS READ</button>
-      </div>
+        <span className="badge-success"><Bell className="w-3.5 h-3.5" />{mockUpdates.length} updates</span>
+      </header>
 
-      <div className="flex gap-2">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-on-surface-variant" />
-          <input 
-            type="text" 
-            placeholder="Search updates..." 
-            className="w-full pl-10 pr-4 py-2 bg-surface-container-lowest border border-outline-variant rounded focus:outline-none focus:ring-1 focus:ring-primary text-body-sm"
-          />
-        </div>
-        <button className="px-4 py-2 border border-outline-variant rounded flex items-center gap-2 text-on-surface-variant hover:bg-surface-container transition-colors">
-          <Filter className="w-4 h-4" />
-          <span className="text-label-caps">FILTER</span>
-        </button>
-      </div>
-
-      <div className="space-y-3">
-        {notifications.map((notif) => {
-          const { icon: Icon, color, bg } = getTypeStyles(notif.type);
+      <div className="space-y-2">
+        {mockUpdates.map((update) => {
+          const Icon = update.icon;
           return (
-            <div 
-              key={notif.id} 
-              className={`p-4 rounded-lg border flex gap-4 transition-all hover:border-primary cursor-pointer ${
-                notif.read ? 'bg-surface-container-lowest border-outline-variant/50' : 'bg-surface-container-low border-primary/30 shadow-sm'
-              }`}
-            >
-              <div className={`p-2 rounded-lg h-fit ${bg}`}>
-                <Icon className={`w-5 h-5 ${color}`} />
+            <div key={update.id} className="card flex items-start gap-4 hover:bg-surface-container-low transition-colors">
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${update.color}`}>
+                <Icon className="w-5 h-5" />
               </div>
-              <div className="flex-1">
-                <div className="flex justify-between items-start mb-1">
-                  <h3 className={`font-bold ${notif.read ? 'text-on-surface' : 'text-primary'}`}>{notif.title}</h3>
-                  <div className="flex items-center gap-1 text-body-sm text-on-surface-variant italic">
-                    <Clock className="w-3 h-3" />
-                    {notif.time}
-                  </div>
-                </div>
-                <p className="text-body-base text-on-surface-variant leading-relaxed">
-                  {notif.message}
-                </p>
-                {!notif.read && (
-                  <div className="mt-3 flex gap-4">
-                    <button className="text-label-caps text-primary font-bold hover:underline">VIEW IMPACT MAP</button>
-                    <button className="text-label-caps text-on-surface-variant font-bold hover:underline">DISMISS</button>
-                  </div>
-                )}
+              <div className="flex-1 min-w-0">
+                <p className="text-body-base font-medium text-on-surface">{update.message}</p>
+                <p className="text-body-sm text-on-surface-variant mt-0.5">{update.detail}</p>
               </div>
-              {!notif.read && (
-                <div className="w-2 h-2 rounded-full bg-primary mt-2 shadow-[0_0_8px_rgba(37,99,235,0.5)]" />
-              )}
+              <span className="text-body-sm text-on-surface-variant shrink-0 flex items-center gap-1">
+                <Clock className="w-3 h-3" />{update.time}
+              </span>
             </div>
           );
         })}

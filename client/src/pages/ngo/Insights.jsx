@@ -1,124 +1,126 @@
-import React from 'react';
-import { 
-  TrendingUp, 
-  BarChart3, 
-  PieChart, 
-  Download, 
-  Calendar,
-  ArrowUpRight,
-  ArrowDownRight,
-  Target,
-  BrainCircuit
-} from 'lucide-react';
-import { trendData } from '../../data/mockData';
+/**
+ * Insights — Trend charts, AI predictions
+ */
+import React, { useState } from 'react';
+import { mockEvents, trendData } from '../../data/mockData';
+import { TrendingUp, PieChart, Loader2, Sparkles, BarChart3, Clock } from 'lucide-react';
+import { PieChart as RePie, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, BarChart, Bar } from 'recharts';
+
+const COLORS = ['#ba1a1a', '#2563eb', '#bc4800', '#585f6c', '#004ac6'];
 
 const Insights = () => {
+  const [prediction, setPrediction] = useState(null);
+  const [isPredicting, setIsPredicting] = useState(false);
+
+  // Problem type distribution
+  const typeDist = mockEvents.reduce((acc, e) => {
+    acc[e.problem_type] = (acc[e.problem_type] || 0) + 1;
+    return acc;
+  }, {});
+  const pieData = Object.entries(typeDist).map(([name, value]) => ({ name, value }));
+
+  // Severity distribution
+  const sevData = mockEvents.map(e => ({ name: e.location.split(',')[0], severity: e.severity, urgency: e.urgency, score: e.priority_score }));
+
+  const handlePredict = async () => {
+    setIsPredicting(true);
+    try {
+      const res = await fetch('/api/predict/needs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ events: mockEvents }),
+      });
+      const data = await res.json();
+      setPrediction(data);
+    } catch (err) {
+      setPrediction({ overall_trend: 'Failed to generate predictions. Check server connection.', predictions: [], risk_level: 'moderate' });
+    } finally { setIsPredicting(false); }
+  };
+
+  const riskColor = { critical: 'text-error bg-error/10', elevated: 'text-amber-600 bg-amber-50', moderate: 'text-primary bg-primary/10', low: 'text-green-600 bg-green-50' };
+
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-h1 text-on-surface">Deep Intelligence Insights</h1>
-          <p className="text-body-base text-on-surface-variant">Predictive analysis and historical impact tracking.</p>
-        </div>
-        <div className="flex items-center gap-2">
-          <button className="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded bg-surface-container-lowest text-on-surface hover:bg-surface-container transition-colors">
-            <Calendar className="w-4 h-4" />
-            <span className="text-label-caps">LAST 30 DAYS</span>
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded text-label-caps font-bold hover:bg-primary/90 shadow-sm transition-colors">
-            <Download className="w-4 h-4" />
-            EXPORT REPORT
-          </button>
-        </div>
-      </div>
+    <div className="space-y-6">
+      <header className="mb-8">
+        <h1 className="text-h1 text-on-surface mb-2">Deep Insights</h1>
+        <p className="text-body-base text-on-surface-variant">Analytics, trends, and AI-powered predictions.</p>
+      </header>
 
-      {/* High-Level Predictive Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {[
-          { label: 'OUTBREAK RISK', value: 'Elevated', sub: '+14% probability', color: 'text-tertiary', icon: BrainCircuit },
-          { label: 'RESOURCE EFFICIENCY', value: '92%', sub: '+4% vs last month', color: 'text-success', icon: Target },
-          { label: 'AVG RESPONSE TIME', value: '4.2h', sub: '-1.5h improvement', color: 'text-primary', icon: TrendingUp },
-          { label: 'ACTIVE DEPLOYMENTS', value: '18', sub: '2 nearing completion', color: 'text-secondary', icon: BarChart3 },
-        ].map((card, i) => (
-          <div key={i} className="bg-surface-container-lowest border border-outline-variant rounded p-5 relative overflow-hidden group">
-            <card.icon className="absolute -right-2 -bottom-2 w-16 h-16 opacity-5 group-hover:scale-110 transition-transform" />
-            <p className="text-label-caps text-on-surface-variant mb-1">{card.label}</p>
-            <h3 className={`text-h1 ${card.color}`}>{card.value}</h3>
-            <p className="text-body-sm mt-1 font-medium text-on-surface-variant">{card.sub}</p>
-          </div>
-        ))}
-      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Pie Chart */}
+        <div className="card">
+          <h2 className="text-h3 text-on-surface mb-4 flex items-center gap-2"><PieChart className="w-5 h-5 text-primary" />Problem Type Distribution</h2>
+          <ResponsiveContainer width="100%" height={280}>
+            <RePie data={pieData} cx="50%" cy="50%" outerRadius={100} dataKey="value" label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+              {pieData.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
+            </RePie>
+          </ResponsiveContainer>
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Trend Visualization Placeholder */}
-        <div className="lg:col-span-2 bg-surface-container-lowest border border-outline-variant rounded-lg p-6">
-          <div className="flex items-center justify-between mb-8">
-            <h3 className="text-h2 text-on-surface">Mission Severity Trends</h3>
-            <div className="flex gap-4">
-              <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-full bg-primary" />
-                <span className="text-label-caps text-on-surface-variant">DENGUE</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="w-3 h-3 rounded-full bg-tertiary" />
-                <span className="text-label-caps text-on-surface-variant">FLOOD</span>
-              </div>
+        {/* Trend Line */}
+        <div className="card">
+          <h2 className="text-h3 text-on-surface mb-4 flex items-center gap-2"><TrendingUp className="w-5 h-5 text-primary" />Monthly Trend</h2>
+          <ResponsiveContainer width="100%" height={280}>
+            <LineChart data={trendData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e1e2ed" />
+              <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+              <YAxis tick={{ fontSize: 12 }} />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="dengue" stroke="#ba1a1a" strokeWidth={2} dot={{ r: 4 }} />
+              <Line type="monotone" dataKey="flood" stroke="#2563eb" strokeWidth={2} dot={{ r: 4 }} />
+              <Line type="monotone" dataKey="cholera" stroke="#bc4800" strokeWidth={2} dot={{ r: 4 }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Severity Comparison */}
+        <div className="card">
+          <h2 className="text-h3 text-on-surface mb-4 flex items-center gap-2"><BarChart3 className="w-5 h-5 text-primary" />Severity by Location</h2>
+          <ResponsiveContainer width="100%" height={280}>
+            <BarChart data={sevData}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#e1e2ed" />
+              <XAxis dataKey="name" tick={{ fontSize: 11 }} />
+              <YAxis tick={{ fontSize: 12 }} />
+              <Tooltip />
+              <Legend />
+              <Bar dataKey="severity" fill="#ba1a1a" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="urgency" fill="#2563eb" radius={[4, 4, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* AI Prediction */}
+        <div className="card">
+          <h2 className="text-h3 text-on-surface mb-4 flex items-center gap-2"><Sparkles className="w-5 h-5 text-primary" />AI Predictions</h2>
+          {!prediction && !isPredicting && (
+            <div className="text-center py-8">
+              <p className="text-body-base text-on-surface-variant mb-4">Analyze recent events to predict upcoming community needs.</p>
+              <button onClick={handlePredict} className="btn-primary"><Sparkles className="w-4 h-4" />Generate AI Prediction</button>
             </div>
-          </div>
-          
-          <div className="h-64 flex items-end justify-between gap-4 px-4 border-b border-l border-outline-variant/30">
-            {trendData.map((data, i) => (
-              <div key={i} className="flex-1 flex flex-col items-center gap-2 group">
-                <div className="w-full flex items-end justify-center gap-1 h-full">
-                  <div 
-                    className="w-1/3 bg-primary/20 group-hover:bg-primary transition-all rounded-t" 
-                    style={{ height: `${data.dengue * 2}px` }} 
-                  />
-                  <div 
-                    className="w-1/3 bg-tertiary/20 group-hover:bg-tertiary transition-all rounded-t" 
-                    style={{ height: `${data.flood * 4}px` }} 
-                  />
-                </div>
-                <span className="text-label-caps text-on-surface-variant">{data.month}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Intelligence Breakdown */}
-        <div className="bg-surface-container-lowest border border-outline-variant rounded-lg p-6">
-          <h3 className="text-h2 text-on-surface mb-6">Sector Distribution</h3>
-          <div className="space-y-6">
-            {[
-              { label: 'Healthcare', value: 45, color: 'bg-primary' },
-              { label: 'Sanitation', value: 30, color: 'bg-secondary' },
-              { label: 'Disaster Relief', value: 15, color: 'bg-tertiary' },
-              { label: 'Education', value: 10, color: 'bg-outline-variant' },
-            ].map((sector, i) => (
-              <div key={i} className="space-y-2">
-                <div className="flex justify-between text-body-base font-medium">
-                  <span>{sector.label}</span>
-                  <span className="text-tabular-nums">{sector.value}%</span>
-                </div>
-                <div className="h-2 bg-surface-container rounded-full overflow-hidden">
-                  <div className={`h-full ${sector.color}`} style={{ width: `${sector.value}%` }} />
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          <div className="mt-8 p-4 bg-surface-container-low rounded border border-outline-variant/50">
-            <div className="flex items-start gap-3">
-              <BrainCircuit className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-              <div>
-                <h4 className="text-body-sm font-bold text-on-surface">AI Recommendation</h4>
-                <p className="text-body-sm text-on-surface-variant">
-                  Shift 15% of healthcare resources to Sanitation in the Mumbai cluster to preemptively reduce dengue breeding sites.
-                </p>
-              </div>
+          )}
+          {isPredicting && (
+            <div className="flex flex-col items-center py-8 gap-3">
+              <Loader2 className="w-8 h-8 animate-spin text-primary" />
+              <p className="text-body-base text-on-surface-variant">Gemini is analyzing patterns...</p>
             </div>
-          </div>
+          )}
+          {prediction && (
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="text-label-caps uppercase text-on-surface-variant">Risk Level:</span>
+                <span className={`px-3 py-1 rounded-full text-body-sm font-medium ${riskColor[prediction.risk_level] || riskColor.moderate}`}>{prediction.risk_level}</span>
+              </div>
+              <p className="text-body-base text-on-surface italic">"{prediction.overall_trend}"</p>
+              {prediction.predictions?.map((p, i) => (
+                <div key={i} className="p-3 rounded-lg bg-surface-container-low border border-outline-variant">
+                  <p className="text-body-base font-medium text-on-surface">{p.predicted_problem} — {p.likely_location}</p>
+                  <p className="text-body-sm text-on-surface-variant mt-1">{p.reasoning}</p>
+                  <p className="text-body-sm text-primary mt-1 font-medium">→ {p.recommended_action}</p>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
