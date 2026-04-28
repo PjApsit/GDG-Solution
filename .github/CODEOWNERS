@@ -1,0 +1,8 @@
+# Default owner for all files
+* @bhere
+
+# Critical config and CI files
+.github/workflows/* @bhere
+firestore.rules @bhere
+server/** @bhere
+client/** @bhere
