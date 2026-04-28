@@ -44,6 +44,18 @@ async function request(endpoint, options = {}) {
   return res.json();
 }
 
+function uploadFiles(endpoint, files) {
+  const formData = new FormData();
+  files.forEach((file) => {
+    formData.append('files', file);
+  });
+
+  return request(endpoint, {
+    method: 'POST',
+    body: formData,
+  });
+}
+
 // ── Events ──
 export const eventsApi = {
   getAll: () => request('/events'),
@@ -84,6 +96,35 @@ export const volunteersApi = {
 };
 
 // ── Social Posts ──
+export const socialApi = {
+  getPosts: () => request('/social/posts'),
+  createPost: (data) => request('/social/posts', { method: 'POST', body: JSON.stringify(data) }),
+  likePost: (id) => request(`/social/posts/${id}/like`, { method: 'POST' }),
+  joinInitiative: (postId) => request(`/social/posts/${postId}/join`, { method: 'POST' }),
+};
+
+// ── Predictions ──
+export const predictApi = {
+  needs: (events) => request('/predict/needs', { method: 'POST', body: JSON.stringify({ events }) }),
+};
+
+// ── Export ──
+export const exportApi = {
+  events: () => `${API_BASE}/export/events`,
+  tasks: () => `${API_BASE}/export/tasks`,
+};
+
+// ── Health ──
+export const healthApi = {
+  check: () => request('/health'),
+};
+
+// ── Social Posts ──
+// Data Ingestion
+export const ingestionApi = {
+  upload: (files) => uploadFiles('/ingestion/upload', files),
+};
+
 export const socialApi = {
   getPosts: () => request('/social/posts'),
   createPost: (data) => request('/social/posts', { method: 'POST', body: JSON.stringify(data) }),

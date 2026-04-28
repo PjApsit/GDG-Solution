@@ -1,0 +1,5 @@
+pdfplumber
+PyPDF2
+pypdfium2
+pytesseract
+Pillow

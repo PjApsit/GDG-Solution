@@ -8,6 +8,7 @@ import matchingRouter from './routes/matching.js';
 import exportRouter from './routes/export.js';
 import predictRouter from './routes/predict.js';
 import volunteersRouter from './routes/volunteers.js';
+import ingestionRouter from './routes/ingestion.js';
 import { errorHandler } from './middleware/error.js';
 import { optionalAuth } from './middleware/auth.js';
 import { adminDb } from './config/firebase-admin.js';
@@ -31,11 +32,12 @@ app.use('/api/matching', matchingRouter);
 app.use('/api/export', exportRouter);
 app.use('/api/predict', predictRouter);
 app.use('/api/volunteers', volunteersRouter);
+app.use('/api/ingestion', ingestionRouter);
 
 // Basic health check
 app.get('/api/health', (req, res) => {
-  res.json({ 
-    status: 'ok', 
+  res.json({
+    status: 'ok',
     message: 'ImpactFlow AI Server is running.',
     firebase: adminDb ? 'connected' : 'not configured (using dummy data)',
     gemini: !!process.env.GEMINI_API_KEY ? 'configured' : 'not configured',
