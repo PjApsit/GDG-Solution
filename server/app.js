@@ -16,9 +16,16 @@ import { adminDb } from './config/firebase-admin.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 8080;
 
-app.use(cors());
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' 
+    ? ['https://solution2026-644dd.web.app', process.env.FRONTEND_URL]
+    : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:8080'],
+  credentials: true
+};
+
+app.use(cors(corsOptions));
 app.use(express.json({ limit: '10mb' })); // Increased for base64 image uploads
 
 // Optional auth on all routes — attaches req.user if token present

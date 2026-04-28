@@ -12,6 +12,7 @@ __pycache__/
 
 # Environment variables
 .env
+.env.*
 client/.env
 server/.env
 *.local
