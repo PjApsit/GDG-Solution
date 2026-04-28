@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 8080;
 
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://solution2026-644dd.web.app', process.env.FRONTEND_URL]
+    ? ['https://gdg-solution-deploy.web.app', 'https://solution2026-644dd.web.app', process.env.FRONTEND_URL]
     : ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:8080'],
   credentials: true
 };
