@@ -10,6 +10,8 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { 
   signInWithPopup, 
+  signInWithRedirect,
+  getRedirectResult,
   signOut as firebaseSignOut, 
   onAuthStateChanged 
 } from 'firebase/auth';
@@ -36,6 +38,12 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
       return undefined;
     }
+
+    // Surface redirect errors (if popup fails and we fall back to redirect)
+    getRedirectResult(auth).catch((err) => {
+      console.error('Firebase redirect sign-in error:', err);
+      setError(err.message);
+    });
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
@@ -75,6 +83,15 @@ export const AuthProvider = ({ children }) => {
       const result = await signInWithPopup(auth, googleProvider);
       return result.user;
     } catch (err) {
+      // Fallback for popup issues or generic internal errors
+      if (
+        err?.code === 'auth/popup-blocked' ||
+        err?.code === 'auth/popup-closed-by-user' ||
+        err?.code === 'auth/internal-error'
+      ) {
+        await signInWithRedirect(auth, googleProvider);
+        return null;
+      }
       setError(err.message);
       throw err;
     }
