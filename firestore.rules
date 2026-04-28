@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users — only owner can read/write their profile
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      // Allow reading volunteer profiles for matching
+      allow read: if request.auth != null && resource.data.role == 'volunteer';
+    }
+
+    // Events — any authenticated user can read; creator can write
+    match /events/{eventId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && resource.data.created_by == request.auth.uid;
+    }
+
+    // Tasks — authenticated read; NGO owner can write; volunteers can update assignment
+    match /tasks/{taskId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null 
+        && (resource.data.ngo_id == request.auth.uid 
+            || request.resource.data.diff(resource.data).affectedKeys()
+                .hasOnly(['volunteer_id', 'status', 'assigned_at', 'completed_at', 'updated_at']));
+      allow delete: if request.auth != null && resource.data.ngo_id == request.auth.uid;
+    }
+
+    // Posts — authenticated read/create; creator can update
+    match /posts/{postId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update: if request.auth != null && resource.data.created_by == request.auth.uid;
+    }
+  }
+}
