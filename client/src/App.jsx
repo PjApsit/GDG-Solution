@@ -16,6 +16,8 @@ import ScanSurvey from './pages/ngo/ScanSurvey';
 import DataUpload from './pages/ngo/DataUpload';
 import DataManagement from './pages/ngo/DataManagement';
 import Projects from './pages/ngo/Projects';
+import CreateProjectData from './pages/ngo/CreateProjectData';
+import ProjectMissionControl from './pages/ngo/ProjectMissionControl';
 import Insights from './pages/ngo/Insights';
 import Updates from './pages/ngo/Updates';
 
@@ -39,6 +41,8 @@ function App() {
             <Route path="dashboard" element={<NGODashboard />} />
             <Route path="scan" element={<DataUpload />} />
             <Route path="projects" element={<Projects />} />
+            <Route path="projects/new-data" element={<CreateProjectData />} />
+            <Route path="projects/mission-control" element={<ProjectMissionControl />} />
             <Route path="data" element={<DataManagement />} />
             <Route path="updates" element={<Updates />} />
             <Route path="insights" element={<Insights />} />

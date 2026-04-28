@@ -2,7 +2,7 @@
  * Projects — Group related events/tasks by theme
  */
 import React, { useState } from 'react';
-import { mockEvents, mockTasks } from '../../data/mockData';
+import { Link } from 'react-router-dom';
 import { FolderKanban, Plus, Users, CheckCircle, AlertTriangle, MapPin } from 'lucide-react';
 
 const mockProjects = [
@@ -29,7 +29,12 @@ const Projects = () => {
           <h1 className="text-h1 text-on-surface mb-2">Projects</h1>
           <p className="text-body-base text-on-surface-variant">Organize events and tasks into coordinated projects.</p>
         </div>
-        <button onClick={() => setShowForm(!showForm)} className="btn-primary"><Plus className="w-4 h-4" />New Project</button>
+        <div className="flex items-center gap-2">
+          <Link to="/ngo/projects/new-data" className="btn-secondary">
+            Create New Project Data
+          </Link>
+          <button onClick={() => setShowForm(!showForm)} className="btn-primary"><Plus className="w-4 h-4" />New Project</button>
+        </div>
       </header>
 
       {showForm && (
@@ -54,7 +59,7 @@ const Projects = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {mockProjects.map(project => (
-          <div key={project.id} className="card hover:shadow-level-2 transition-shadow cursor-pointer group">
+          <Link to="/ngo/projects/mission-control" key={project.id} className="card hover:shadow-level-2 transition-shadow cursor-pointer group block">
             <div className="flex items-start justify-between mb-3">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
@@ -84,7 +89,7 @@ const Projects = () => {
               <span className="flex items-center gap-1"><CheckCircle className="w-3.5 h-3.5" />{project.tasks.length} tasks</span>
               <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" />{Math.floor(Math.random() * 10) + 2} volunteers</span>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
