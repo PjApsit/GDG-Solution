@@ -13,6 +13,7 @@ import Login from './pages/Login';
 import NGODashboard from './pages/ngo/Dashboard';
 import NGOSocial from './pages/ngo/Social';
 import ScanSurvey from './pages/ngo/ScanSurvey';
+import DataUpload from './pages/ngo/DataUpload';
 import DataManagement from './pages/ngo/DataManagement';
 import Projects from './pages/ngo/Projects';
 import Insights from './pages/ngo/Insights';
@@ -36,7 +37,7 @@ function App() {
           {/* NGO Routes — Protected */}
           <Route path="/ngo" element={<NGOLayout />}>
             <Route path="dashboard" element={<NGODashboard />} />
-            <Route path="scan" element={<ScanSurvey />} />
+            <Route path="scan" element={<DataUpload />} />
             <Route path="projects" element={<Projects />} />
             <Route path="data" element={<DataManagement />} />
             <Route path="updates" element={<Updates />} />

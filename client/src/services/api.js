@@ -28,12 +28,17 @@ async function request(endpoint, options = {}) {
   const url = `${API_BASE}${endpoint}`;
   const token = await getAuthToken();
 
+  const isFormData = options.body instanceof FormData;
+
+  const headers = {
+    ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...(options.headers || {}),
+  };
+
   const config = {
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
     ...options,
+    headers,
   };
 
   const res = await fetch(url, config);
@@ -123,27 +128,4 @@ export const healthApi = {
 // Data Ingestion
 export const ingestionApi = {
   upload: (files) => uploadFiles('/ingestion/upload', files),
-};
-
-export const socialApi = {
-  getPosts: () => request('/social/posts'),
-  createPost: (data) => request('/social/posts', { method: 'POST', body: JSON.stringify(data) }),
-  likePost: (id) => request(`/social/posts/${id}/like`, { method: 'POST' }),
-  joinInitiative: (postId) => request(`/social/posts/${postId}/join`, { method: 'POST' }),
-};
-
-// ── Predictions ──
-export const predictApi = {
-  needs: (events) => request('/predict/needs', { method: 'POST', body: JSON.stringify({ events }) }),
-};
-
-// ── Export ──
-export const exportApi = {
-  events: () => `${API_BASE}/export/events`,
-  tasks: () => `${API_BASE}/export/tasks`,
-};
-
-// ── Health ──
-export const healthApi = {
-  check: () => request('/health'),
 };
