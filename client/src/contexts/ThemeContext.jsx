@@ -3,13 +3,12 @@ import React, { createContext, useContext, useEffect, useMemo, useState } from '
 const ThemeContext = createContext(null);
 
 const getPreferredTheme = () => {
-  if (typeof window === 'undefined') return 'light';
+  if (typeof window === 'undefined') return 'dark';
 
   const stored = window.localStorage.getItem('impactflow-theme');
   if (stored === 'light' || stored === 'dark') return stored;
 
-  const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
-  return prefersDark ? 'dark' : 'light';
+  return 'dark';
 };
 
 export const ThemeProvider = ({ children }) => {
