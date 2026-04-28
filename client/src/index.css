@@ -15,10 +15,83 @@ body {
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 14px;
   line-height: 20px;
-  background-color: #faf8ff;
-  color: #191b23;
+  background-color: rgb(var(--color-background));
+  color: rgb(var(--color-on-surface));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  color-scheme: light;
+}
+
+:root {
+  --color-primary: 0 74 198;
+  --color-primary-container: 37 99 235;
+  --color-primary-fixed: 219 225 255;
+  --color-primary-fixed-dim: 180 197 255;
+  --color-secondary: 88 95 108;
+  --color-secondary-container: 220 226 243;
+  --color-tertiary: 148 55 0;
+  --color-tertiary-container: 188 72 0;
+  --color-surface: 250 248 255;
+  --color-surface-dim: 217 217 229;
+  --color-surface-bright: 250 248 255;
+  --color-surface-container: 237 237 249;
+  --color-surface-container-high: 231 231 243;
+  --color-surface-container-highest: 225 226 237;
+  --color-surface-container-low: 243 243 254;
+  --color-surface-container-lowest: 255 255 255;
+  --color-surface-variant: 225 226 237;
+  --color-on-surface: 25 27 35;
+  --color-on-surface-variant: 67 70 85;
+  --color-on-primary: 255 255 255;
+  --color-on-primary-container: 238 239 255;
+  --color-on-secondary: 255 255 255;
+  --color-on-error: 255 255 255;
+  --color-outline: 115 118 134;
+  --color-outline-variant: 195 198 215;
+  --color-error: 186 26 26;
+  --color-error-container: 255 218 214;
+  --color-inverse-surface: 46 48 57;
+  --color-inverse-on-surface: 240 240 251;
+  --color-inverse-primary: 180 197 255;
+  --color-background: 250 248 255;
+}
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+  --color-primary: 180 197 255;
+  --color-primary-container: 96 126 220;
+  --color-primary-fixed: 219 225 255;
+  --color-primary-fixed-dim: 180 197 255;
+  --color-secondary: 200 202 214;
+  --color-secondary-container: 60 64 78;
+  --color-tertiary: 255 188 133;
+  --color-tertiary-container: 120 75 35;
+  --color-surface: 23 24 30;
+  --color-surface-dim: 18 19 24;
+  --color-surface-bright: 32 34 42;
+  --color-surface-container: 39 41 50;
+  --color-surface-container-high: 45 47 58;
+  --color-surface-container-highest: 52 54 66;
+  --color-surface-container-low: 34 35 43;
+  --color-surface-container-lowest: 28 29 36;
+  --color-surface-variant: 64 66 78;
+  --color-on-surface: 240 240 251;
+  --color-on-surface-variant: 200 202 214;
+  --color-on-primary: 15 18 28;
+  --color-on-primary-container: 240 240 251;
+  --color-on-secondary: 15 18 28;
+  --color-on-error: 15 18 28;
+  --color-outline: 114 118 134;
+  --color-outline-variant: 82 86 100;
+  --color-error: 255 180 171;
+  --color-error-container: 122 35 30;
+  --color-inverse-surface: 240 240 251;
+  --color-inverse-on-surface: 46 48 57;
+  --color-inverse-primary: 0 74 198;
+  --color-background: 18 19 24;
 }
 
 /* ── Scrollbar (Government-grade minimal) ── */
@@ -31,6 +104,23 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #c3c6d7;
   border-radius: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 8px 12px;
+  background: rgb(var(--color-primary));
+  color: rgb(var(--color-on-primary));
+  border-radius: 6px;
+  transform: translateY(-200%);
+  transition: transform 0.2s ease;
+  z-index: 50;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 /* ── Utility layers ── */

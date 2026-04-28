@@ -1,48 +1,63 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
 import NGOLayout from './layouts/NGOLayout';
 import VolunteerLayout from './layouts/VolunteerLayout';
+
+// Auth Pages
+import Landing from './pages/Landing';
+import Login from './pages/Login';
 
 // NGO Pages
 import NGODashboard from './pages/ngo/Dashboard';
 import NGOSocial from './pages/ngo/Social';
+import ScanSurvey from './pages/ngo/ScanSurvey';
+import DataManagement from './pages/ngo/DataManagement';
+import Projects from './pages/ngo/Projects';
+import Insights from './pages/ngo/Insights';
+import Updates from './pages/ngo/Updates';
 
 // Volunteer Pages
 import VolunteerDashboard from './pages/volunteer/Dashboard';
-
-// Placeholder for unbuilt pages
-const Placeholder = ({ title }) => (
-  <div className="flex items-center justify-center h-64 border-2 border-dashed border-outline-variant rounded">
-    <h2 className="text-h2 text-on-surface-variant">{title} - Coming Soon</h2>
-  </div>
-);
-
-import Landing from './pages/Landing';
+import MyWork from './pages/volunteer/MyWork';
+import Certificate from './pages/volunteer/Certificate';
+import ReportNeed from './pages/volunteer/ReportNeed';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        
-        {/* NGO Routes */}
-        <Route path="/ngo" element={<NGOLayout />}>
-          <Route path="dashboard" element={<NGODashboard />} />
-          <Route path="projects" element={<Placeholder title="Projects" />} />
-          <Route path="data" element={<Placeholder title="Data Management" />} />
-          <Route path="updates" element={<Placeholder title="Updates" />} />
-          <Route path="insights" element={<Placeholder title="Deep Insights" />} />
-          <Route path="social" element={<NGOSocial />} />
-        </Route>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
 
-        {/* Volunteer Routes */}
-        <Route path="/volunteer" element={<VolunteerLayout />}>
-          <Route path="dashboard" element={<VolunteerDashboard />} />
-          <Route path="work" element={<Placeholder title="My Work" />} />
-          <Route path="social" element={<NGOSocial />} /> {/* Reuse social for now */}
-        </Route>
-      </Routes>
-    </BrowserRouter>
+          {/* NGO Routes — Protected */}
+          <Route path="/ngo" element={<NGOLayout />}>
+            <Route path="dashboard" element={<NGODashboard />} />
+            <Route path="scan" element={<ScanSurvey />} />
+            <Route path="projects" element={<Projects />} />
+            <Route path="data" element={<DataManagement />} />
+            <Route path="updates" element={<Updates />} />
+            <Route path="insights" element={<Insights />} />
+            <Route path="social" element={<NGOSocial />} />
+          </Route>
+
+          {/* Volunteer Routes — Protected */}
+          <Route path="/volunteer" element={<VolunteerLayout />}>
+            <Route path="dashboard" element={<VolunteerDashboard />} />
+            <Route path="work" element={<MyWork />} />
+            <Route path="report" element={<ReportNeed />} />
+            <Route path="certificate" element={<Certificate />} />
+            <Route path="social" element={<NGOSocial />} />
+          </Route>
+
+          {/* Catch-all redirect */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
