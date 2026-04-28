@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import eventsRouter from './routes/events.js';
 import tasksRouter from './routes/tasks.js';
+import ingestionRouter from './routes/ingestion.js';
 import { errorHandler } from './middleware/error.js';
 
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(express.json());
 // Routes
 app.use('/api/events', eventsRouter);
 app.use('/api/tasks', tasksRouter);
+app.use('/api/ingestion', ingestionRouter);
 
 // Basic health check
 app.get('/api/health', (req, res) => {

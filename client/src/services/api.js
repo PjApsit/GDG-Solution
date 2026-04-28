@@ -8,16 +8,29 @@ const API_BASE = '/api';
 
 async function request(endpoint, options = {}) {
   const url = `${API_BASE}${endpoint}`;
+  const isFormData = options.body instanceof FormData;
   const config = {
-    headers: { 'Content-Type': 'application/json' },
+    headers: isFormData ? {} : { 'Content-Type': 'application/json' },
     ...options,
   };
   const res = await fetch(url, config);
   if (!res.ok) {
     const error = await res.json().catch(() => ({ message: res.statusText }));
-    throw new Error(error.message || 'API request failed');
+    throw new Error(error.error || error.message || 'API request failed');
   }
   return res.json();
+}
+
+function uploadFiles(endpoint, files) {
+  const formData = new FormData();
+  files.forEach((file) => {
+    formData.append('files', file);
+  });
+
+  return request(endpoint, {
+    method: 'POST',
+    body: formData,
+  });
 }
 
 // ── Events ──
@@ -46,6 +59,11 @@ export const tasksApi = {
 };
 
 // ── Social Posts ──
+// Data Ingestion
+export const ingestionApi = {
+  upload: (files) => uploadFiles('/ingestion/upload', files),
+};
+
 export const socialApi = {
   getPosts: () => request('/social/posts'),
   createPost: (data) => request('/social/posts', { method: 'POST', body: JSON.stringify(data) }),

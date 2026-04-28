@@ -6,6 +6,7 @@ import VolunteerLayout from './layouts/VolunteerLayout';
 // NGO Pages
 import NGODashboard from './pages/ngo/Dashboard';
 import NGOSocial from './pages/ngo/Social';
+import NGODataUpload from './pages/ngo/DataUpload';
 
 // Volunteer Pages
 import VolunteerDashboard from './pages/volunteer/Dashboard';
@@ -29,7 +30,7 @@ function App() {
         <Route path="/ngo" element={<NGOLayout />}>
           <Route path="dashboard" element={<NGODashboard />} />
           <Route path="projects" element={<Placeholder title="Projects" />} />
-          <Route path="data" element={<Placeholder title="Data Management" />} />
+          <Route path="data" element={<NGODataUpload />} />
           <Route path="updates" element={<Placeholder title="Updates" />} />
           <Route path="insights" element={<Placeholder title="Deep Insights" />} />
           <Route path="social" element={<NGOSocial />} />
