@@ -1,20 +1,5 @@
-/**
- * Auth Context — Global authentication state
- * WHY: Every component in the app needs to know if the user is logged in and what their role is.
- * Uses Firebase Auth with Google Sign-In (Q49 — enterprise-grade, free, zero password management).
- * 
- * Role detection reads from Firestore `users/{uid}` document.
- * First-time users are prompted to select their role (NGO or Volunteer).
- */
-
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { 
-  signInWithPopup, 
-  signOut as firebaseSignOut, 
-  onAuthStateChanged 
-} from 'firebase/auth';
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { auth, googleProvider, db, firebaseConfigured } from '../config/firebase';
+import { supabase } from '../services/supabaseClient';
 
 const AuthContext = createContext(null);
 
@@ -30,99 +15,153 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Listen to auth state changes
   useEffect(() => {
-    if (!firebaseConfigured || !auth) {
-      setLoading(false);
-      return undefined;
-    }
-
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        setUser(firebaseUser);
-        // Fetch user profile from Firestore
-        try {
-          const userDoc = await getDoc(doc(db, 'users', firebaseUser.uid));
-          if (userDoc.exists()) {
-            setUserProfile({ id: userDoc.id, ...userDoc.data() });
-          } else {
-            // First-time user — profile will be created during role selection
-            setUserProfile(null);
-          }
-        } catch (err) {
-          console.error('Error fetching user profile:', err);
-          setError(err.message);
-        }
-      } else {
-        setUser(null);
-        setUserProfile(null);
-      }
-      setLoading(false);
+    // 1. Get initial session on load
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      handleSession(session);
     });
 
-    return () => unsubscribe();
+    // 2. Listen to auth state changes (login, logout, refresh)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      handleSession(session);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  // Google Sign-In
+  const handleSession = async (session) => {
+    if (session?.user) {
+      setUser(session.user);
+      await fetchUserProfile(session.user.id);
+    } else {
+      setUser(null);
+      setUserProfile(null);
+      setLoading(false);
+    }
+  };
+
+  const fetchUserProfile = async (userId) => {
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .single();
+
+      if (error && error.code !== 'PGRST116') {
+        // PGRST116 means "Row not found" - totally normal for a first-time user!
+        console.error('Error fetching user profile:', error);
+      }
+
+      setUserProfile(data || null);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Google Sign-In via Supabase
   const signInWithGoogle = async () => {
     setError(null);
-    if (!firebaseConfigured || !auth || !googleProvider) {
-      const err = new Error('Firebase is not configured.');
-      setError(err.message);
-      throw err;
-    }
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      return result.user;
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin, // Returns to your app after Google auth
+        }
+      });
+      if (error) throw error;
     } catch (err) {
       setError(err.message);
       throw err;
     }
   };
 
-  // Create user profile in Firestore (called after role selection)
+  // Create user profile in Supabase Database (Profiles Table)
   const createUserProfile = async (role, extraData = {}) => {
-    if (!firebaseConfigured || !db) {
-      throw new Error('Firebase is not configured.');
-    }
     if (!user) throw new Error('Must be signed in to create profile');
     
+    const fullName = user.user_metadata?.full_name || user.email.split('@')[0];
+
     const profile = {
+      id: user.id, // CRITICAL: Links directly to auth.users.id
       email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL,
+      full_name: fullName,
       role, // 'ngo' or 'volunteer'
       skills: extraData.skills || [],
       location: extraData.location || '',
       organization: extraData.organization || '',
       impact_points: 0,
       tasks_completed: 0,
-      tasks_active: 0,
-      last_task_completed_at: null, // Q21 — task fatigue tracking
-      schema_version: 1, // Q46 — schema versioning
-      is_active: true, // Q42 — soft deletes
-      created_at: serverTimestamp(),
-      updated_at: serverTimestamp(),
+      contact_status: 'Online'
     };
 
-    await setDoc(doc(db, 'users', user.uid), profile);
-    setUserProfile({ id: user.uid, ...profile });
-    return profile;
+    const { data, error } = await supabase
+      .from('profiles')
+      .insert([profile])
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    // If role is volunteer, also create a row in public.volunteers
+    // so FK joins (project_volunteers → volunteers) always resolve.
+    if (role === 'volunteer') {
+      await supabase.from('volunteers').upsert({
+        id: user.id,
+        full_name: fullName,
+        email: user.email,
+        location: extraData.location || '',
+        skills: extraData.skills || [],
+        availability_status: 'Available',
+      }, { onConflict: 'id' });
+    }
+    
+    setUserProfile(data);
+    return data;
   };
 
   // Sign out
   const signOut = async () => {
-    if (!firebaseConfigured || !auth) {
-      setUser(null);
-      setUserProfile(null);
-      return;
-    }
     try {
-      await firebaseSignOut(auth);
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
       setUser(null);
       setUserProfile(null);
     } catch (err) {
       setError(err.message);
+    }
+  };
+
+  // Sign up with Email and Password
+  const signUpWithEmail = async (email, password) => {
+    setError(null);
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+      if (error) throw error;
+      return data;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    }
+  };
+
+  // Sign in with Email and Password
+  const signInWithEmail = async (email, password) => {
+    setError(null);
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (error) throw error;
+    } catch (err) {
+      setError(err.message);
+      throw err;
     }
   };
 
@@ -132,6 +171,8 @@ export const AuthProvider = ({ children }) => {
     loading,
     error,
     signInWithGoogle,
+    signUpWithEmail,
+    signInWithEmail,
     createUserProfile,
     signOut,
     isAuthenticated: !!user,

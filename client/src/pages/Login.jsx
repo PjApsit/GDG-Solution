@@ -17,7 +17,7 @@ import { Shield, Heart, Users, Zap, ArrowRight, Sparkles } from 'lucide-react';
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { signInWithGoogle, createUserProfile, isAuthenticated, isProfileComplete, role, user, loading } = useAuth();
+  const { signInWithGoogle, signUpWithEmail, signInWithEmail, createUserProfile, isAuthenticated, isProfileComplete, role, user, loading } = useAuth();
   
   const [step, setStep] = useState('login'); // 'login' | 'role' | 'details'
   const [selectedRole, setSelectedRole] = useState(null);
@@ -25,6 +25,41 @@ const Login = () => {
   const [organization, setOrganization] = useState('');
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [error, setError] = useState(null);
+  
+  // Email/Password states
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(null);
+
+  const handleEmailAuth = async (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      setError("Please enter both email and password.");
+      return;
+    }
+    setIsSigningIn(true);
+    setError(null);
+    setSuccessMessage(null);
+    try {
+      if (isSignUp) {
+        const data = await signUpWithEmail(email, password);
+        // If session is null, it means email confirmation is required by Supabase config.
+        if (data?.user && !data?.session) {
+          setSuccessMessage("Success! Please check your email to verify your account.");
+          setIsSigningIn(false);
+        } else {
+          // If session exists, they are logged in, useEffect will handle redirect
+        }
+      } else {
+        await signInWithEmail(email, password);
+        // useEffect will redirect if successful
+      }
+    } catch (err) {
+      setError(err.message);
+      setIsSigningIn(false);
+    }
+  };
 
   // Redirect if already authenticated with complete profile
   useEffect(() => {
@@ -156,6 +191,69 @@ const Login = () => {
               </div>
             )}
 
+            {successMessage && (
+              <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
+                <p className="text-primary text-sm font-medium">{successMessage}</p>
+              </div>
+            )}
+
+            <form onSubmit={handleEmailAuth} className="space-y-4">
+              <div>
+                <label className="text-label-caps uppercase text-on-surface-variant mb-1 block">Email</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  className="input-field"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-label-caps uppercase text-on-surface-variant mb-1 block">Password</label>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  className="input-field"
+                  required
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={isSigningIn}
+                className="w-full btn-primary py-3 flex items-center justify-center gap-2"
+              >
+                {isSigningIn ? (
+                  <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <>{isSignUp ? 'Sign Up' : 'Sign In'} <ArrowRight className="w-4 h-4" /></>
+                )}
+              </button>
+            </form>
+
+            <div className="text-center text-sm">
+              <span className="text-on-surface-variant">
+                {isSignUp ? "Already have an account?" : "Don't have an account?"}
+              </span>{' '}
+              <button
+                onClick={() => setIsSignUp(!isSignUp)}
+                className="text-primary font-medium hover:underline"
+              >
+                {isSignUp ? 'Sign In' : 'Sign Up'}
+              </button>
+            </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-outline-variant" />
+              </div>
+              <div className="relative flex justify-center">
+                <span className="bg-background px-4 text-sm text-on-surface-variant">or continue with</span>
+              </div>
+            </div>
+
             <button
               onClick={handleGoogleSignIn}
               disabled={isSigningIn}
@@ -175,7 +273,7 @@ const Login = () => {
               {isSigningIn ? 'Signing in...' : 'Continue with Google'}
             </button>
 
-            <div className="relative">
+            <div className="relative pt-4">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-outline-variant" />
               </div>

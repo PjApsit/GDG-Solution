@@ -1,0 +1,57 @@
+name: CD Artifacts
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+concurrency:
+  group: cd-artifacts-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-package:
+    name: Build and Package
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install and build client
+        working-directory: client
+        run: |
+          npm ci
+          npm run build
+
+      - name: Upload client dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-dist
+          path: client/dist
+          if-no-files-found: error
+
+      - name: Install server dependencies
+        working-directory: server
+        run: npm ci
+
+      - name: Create server package
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -czf server-package.tgz \
+            --exclude='./server/node_modules' \
+            --exclude='./server/.env' \
+            server
+
+      - name: Upload server package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-package
+          path: server-package.tgz
+          if-no-files-found: error
